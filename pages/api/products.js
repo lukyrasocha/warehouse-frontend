@@ -9,7 +9,7 @@ export async function getProducts() {
 
 export async function disenchantProduct(item, setRefresh) {
   //await fetch(`https://app-v1-bhlby76vvq-uc.a.run.app/api/Product/delete/${item}`)
-  fetch('http://127.0.0.1:8080/api/product/delete/' + item, {
+  await fetch('https://app-v1-bhlby76vvq-uc.a.run.app/api/Product/delete/' + item, {
     method: 'DELETE',
     mode: 'cors',
   })
@@ -30,7 +30,7 @@ export async function addProduct(item, setRefresh) {
     var product = TABLE;
   }
 
-  fetch('http://127.0.0.1:8080/api/product', {
+  await fetch('https://app-v1-bhlby76vvq-uc.a.run.app/api/Product', {
     method: 'POST',
     mode: 'cors',
     headers: {
