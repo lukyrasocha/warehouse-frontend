@@ -1,28 +1,53 @@
 import Head from 'next/head';
 import Products from '../components/Products';
+import Header from '../components/Header';
 import Image from 'next/image'
-import { getProducts } from './api/products';
+import { addProduct, getProducts } from './api/products';
+import { getArticles } from './api/articles';
+import Card from '@/components/Card';
+import Articles from '@/components/Articles';
+import Table from '@/components/Table';
+import { useState, useEffect } from 'react';
+import { disenchantProduct } from './api/products';
 
 
 export default function Home({ data }) {
-  console.log(data);
+  const [refresh, setRefresh] = useState(false);
+  const [newData, setNewData] = useState(data);
+
+  useEffect(() => {
+    if (refresh) {
+      (async () => {
+        const updatedData = await getArticles();
+        setNewData(updatedData);
+        setRefresh(false);
+      })();
+    }
+  }, [refresh]);
+
+  const handleDisenchant = async (item) => {
+    await disenchantProduct(item, () => setRefresh(true));
+  };
+
+  const handleBuy= async (item) => {
+    await addProduct(item, () => setRefresh(true));
+  };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="flex min-h-screen flex-col items-center justify-center py-2" data-theme="cupcake">
       <Head>
         <title>Computas Warehouse</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Computas Warehouse
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Disenchant a product and update all your articles!
-        </p>
-      <Products data={ data }/>
+      <Header/>
+      <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+        <Card name = "Dining Chair" image = "chair.webp" handleDisenchant = { handleDisenchant } handleBuy = { handleBuy }/>
+        <Card name = "Sofa" image = "sofa.webp" handleDisenchant = { handleDisenchant } handleBuy = { handleBuy }/>
+        <Card name = "Dining Table" image = "table2.jpeg" handleDisenchant = { handleDisenchant } handleBuy = { handleBuy }/>
+      </div>
+      <Table data={ newData } />
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
@@ -33,7 +58,7 @@ export default function Home({ data }) {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <Image src="/logo.svg" alt="Computas" width={120} height={16} />
+          <Image src="/logo.svg" alt="Computas" width={120} height={80} />
         </a>
       </footer>
     </div>
@@ -43,7 +68,7 @@ export default function Home({ data }) {
 // This gets called on every request
 export async function getServerSideProps() {
   // Fetch data from external API
-  const data = await getProducts();
+  const data = await getArticles();
   // Pass data to the page via props
   return { props: { data } }
 }
