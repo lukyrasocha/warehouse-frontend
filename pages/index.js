@@ -1,17 +1,15 @@
 import Head from 'next/head';
-import Products from '../components/Products';
 import Header from '../components/Header';
 import Image from 'next/image'
-import { addProduct, getProducts } from './api/products';
-import { getArticles } from './api/articles';
 import Card from '@/components/Card';
-import Articles from '@/components/Articles';
 import Table from '@/components/Table';
 import { useState, useEffect } from 'react';
 import { disenchantProduct } from './api/products';
-
+import { addProduct } from './api/products';
+import { getArticles } from './api/articles';
 
 export default function Home({ data }) {
+
   const [refresh, setRefresh] = useState(false);
   const [newData, setNewData] = useState(data);
 
