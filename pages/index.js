@@ -40,7 +40,7 @@ export default function Home({ data }) {
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
       <Header/>
-      <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+      <div className="flex flex-row flex-wrap justify-center">
         <Card name = "Dining Chair" image = "chair.webp" handleDisenchant = { handleDisenchant } handleBuy = { handleBuy }/>
         <Card name = "Sofa" image = "sofa.webp" handleDisenchant = { handleDisenchant } handleBuy = { handleBuy }/>
         <Card name = "Dining Table" image = "table2.jpeg" handleDisenchant = { handleDisenchant } handleBuy = { handleBuy }/>
